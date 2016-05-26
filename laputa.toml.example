@@ -1,0 +1,7 @@
+[laputa]
+weibo_uid = 0 # weibo user id here
+ifttt_key = "Your IFTTT key"
+
+[run]
+temp_file = "/tmp/laputa.tmp"
+log_file = "/tmp/laputa.log"
