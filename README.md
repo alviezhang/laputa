@@ -21,3 +21,4 @@ You may want to use crontab to run laputa automaticly.
 
 - Follows and Followers notification support
 - Automatic execution
+- Multi-user watch support
