@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 
-WEIBO_DOMAIN = 'http://m.weibo.cn'
+WEIBO_DOMAIN = 'http://weibo.com'
 
 
 def convert_text(text):
