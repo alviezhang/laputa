@@ -8,10 +8,10 @@ class Recorder:
     def __init__(self, file_name):
         self.file_name = file_name
         self.config = {
-            'post': 0,
+            'posts': [],
             'fans': 0,
-            'like': 0,
-            'follow': 0,
+            'likes': [],
+            'follows': 0,
         }
 
     def _update_config(self, config):

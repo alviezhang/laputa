@@ -23,27 +23,21 @@ class Watcher:
 
     def _watch_event(self, watch_type):
         last_data = self._recorder.read()
-        if watch_type == 'posts':
-            last_post = last_data['post']
-            if last_post == 0:
-                posts = self._weibo_user.get('posts', size=1, after=last_post)
-                if posts:
-                    last_post = posts[0].id
-            else:
-                posts = self._weibo_user.get('posts', after=last_post)
+        if watch_type in ('posts', 'likes'):
+            action_name = {
+                'posts': '发布',
+                'likes': '赞',
+            }
+            value1 = action_name[watch_type]
+            last_watch = last_data[watch_type]
+            if last_watch:
+                posts = self._weibo_user.get(watch_type, after=last_watch)
                 for post in reversed(posts):
-                    self._notifier.trigger(value1='发表', value2=post.text, value3=post.url)
-                    last_post = post.id
-            self._recorder.write({'post': last_post})
-        elif watch_type == 'likes':
-            last_like = last_data['like']
-            if last_like == 0:
-                posts = self._weibo_user.get('likes', size=1, after=last_like)
-                if posts:
-                    last_like = posts[0].id
+                    self._notifier.trigger(value1=value1, value2=post.text, value3=post.url)
+                    last_watch = ([posts[0].id] + last_watch)[:10]
             else:
-                posts = self._weibo_user.get('likes', after=last_like)
-                for post in reversed(posts):
-                    self._notifier.trigger(value1='赞', value2=post.text, value3=post.url)
-                    last_like = post.id
-            self._recorder.write({'like': last_like})
+                posts = self._weibo_user.get(watch_type, size=1, after=last_watch)
+                if posts:
+                    last_watch = ([posts[0].id] + last_watch)[:10]
+            self._recorder.write({watch_type: last_watch})
+

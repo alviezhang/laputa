@@ -53,9 +53,10 @@ class WeiboUser:
         }
         return fetch_url.format(**params)
 
-    def get(self, fetch_type, size=PAGE_SIZE, page=1, after=0):
+    def get(self, fetch_type, size=PAGE_SIZE, page=1, after=[]):
         card_list = []
         page = 1
+        until = list(after)
         while True:
             fetch_url = self._build_fetch_url(fetch_type, page)
             result = self._fetcher.fetch(fetch_url)
@@ -63,7 +64,7 @@ class WeiboUser:
             if len(cards) == 0:
                 break
             for card in cards:
-                if card.id == after:
+                if card.id not in until:
                     return card_list
                 card_list.append(card)
                 if len(card_list) == size:
