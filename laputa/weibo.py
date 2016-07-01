@@ -1,8 +1,8 @@
-#coding: utf-8
+# coding: utf-8
 
 
-from .fetch import Fetcher
-from .parse import CardParser
+from laputa.fetch import Fetcher
+from laputa.parse import CardParser
 
 __all__ = ['WeiboUser']
 
@@ -15,19 +15,19 @@ CONTAINER_PREFIX = '100505'
 FETCH_TYPE = {
     'follows': {
         'container_type': 'FOLLOWERS',
-        'text' : '关注'
+        'text': '关注'
     },
     'posts': {
         'container_type': 'WEIBO_SECOND_PROFILE_WEIBO',
-        'text' : '微博'
+        'text': '微博'
     },
     'fans': {
         'container_type': 'FANS',
-        'text' : '粉丝'
+        'text': '粉丝'
     },
     'likes': {
         'container_type': 'WEIBO_SECOND_PROFILE_LIKE_WEIBO',
-        'text' : '赞过的微博'
+        'text': '赞过的微博'
     },
 }
 
@@ -64,7 +64,7 @@ class WeiboUser:
             if len(cards) == 0:
                 break
             for card in cards:
-                if card.id not in until:
+                if card.id in until:
                     return card_list
                 card_list.append(card)
                 if len(card_list) == size:
@@ -74,4 +74,3 @@ class WeiboUser:
 
     def _result_handler(self, result):
         return CardParser.parse(result)
-

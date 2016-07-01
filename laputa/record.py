@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 import os
 import toml
@@ -31,4 +31,3 @@ class Recorder:
         with open(self.file_name, 'w') as config_file:
             config_str = toml.dumps(self.config)
             config_file.write(config_str)
-

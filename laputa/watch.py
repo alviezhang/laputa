@@ -1,8 +1,10 @@
-#coding: utf-8
+# coding: utf-8
 
-from .record import Recorder
-from .notify import IFTTTNotifier
-from .weibo  import WeiboUser
+
+from laputa.weibo import WeiboUser
+
+
+_MAX_WATCH = 10
 
 
 class Watcher:
@@ -33,11 +35,11 @@ class Watcher:
             if last_watch:
                 posts = self._weibo_user.get(watch_type, after=last_watch)
                 for post in reversed(posts):
-                    self._notifier.trigger(value1=value1, value2=post.text, value3=post.url)
-                    last_watch = ([posts[0].id] + last_watch)[:10]
+                    self._notifier.trigger(value1=value1, value2=post.text,
+                                           value3=post.url)
+                    last_watch = [posts[0].id] + last_watch[:_MAX_WATCH-1]
             else:
-                posts = self._weibo_user.get(watch_type, size=1, after=last_watch)
+                posts = self._weibo_user.get(watch_type, size=1)
                 if posts:
-                    last_watch = ([posts[0].id] + last_watch)[:10]
+                    last_watch = [posts[0].id] + last_watch[:_MAX_WATCH-1]
             self._recorder.write({watch_type: last_watch})
-

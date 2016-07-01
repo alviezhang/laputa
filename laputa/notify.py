@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 import requests
 
@@ -32,4 +32,3 @@ class IFTTTNotifier:
             raise RuntimeError('IFTTT trigger failed! invalid key')
         else:
             raise RuntimeError('IFTTT trigger failed! unknow error')
-

@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 
 import logging
@@ -20,7 +20,6 @@ class CardParser:
     @classmethod
     def parse(cls, response):
         data = json.loads(response)
-        logging.debug('ok: {}, cards count: {}'.format(data['ok'], data['count']))
         card_list = []
         if data['count'] and int(data['count']) > 0:
             mod = data['cards'][0]
@@ -42,7 +41,8 @@ class CardParser:
             elif raw_card['card_type'] == 10:
                 card = User(raw_card['user'])
             else:
-                logging.warn('unknow card type: {}'.format(raw_card['card_type']))
+                logging.warn(
+                        'unknow card type: {}'.format(raw_card['card_type']))
             if card:
                 card_list.append(card)
         return card_list
@@ -76,7 +76,7 @@ class Post(Card):
             'uid': self.uid,
             'bid': self.bid,
         }
-        return '{}/{uid}/{bid}'.format(WEIBO_DOMAIN,**params)
+        return '{}/{uid}/{bid}'.format(WEIBO_DOMAIN, **params)
 
     def __str__(self):
         return '{}: {}..'.format(type(self), self.text[:8])
@@ -92,4 +92,3 @@ class User(Card):
 
     def __str__(self):
         return '{}: {}..'.format(type(self), self.name[:8])
-

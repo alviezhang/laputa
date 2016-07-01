@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 import requests
 import logging
@@ -15,4 +15,3 @@ class Fetcher:
         logger.info('fetching: {}'.format(url))
         response = requests.get(url)
         return response.text
-

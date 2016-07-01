@@ -1,12 +1,12 @@
-#coding: utf-8
+# coding: utf-8
 
 import toml
 import logging
 import argparse
 
-from .watch  import Watcher
-from .record import Recorder
-from .notify import IFTTTNotifier
+from laputa.watch import Watcher
+from laputa.record import Recorder
+from laputa.notify import IFTTTNotifier
 
 
 def read_config(file_name):
@@ -17,7 +17,8 @@ def read_config(file_name):
 
 def parse():
     parser = argparse.ArgumentParser(description='Laputa, flying in the sky')
-    parser.add_argument('-c', metavar='CONFIG_FILE', required=True, help='config file')
+    parser.add_argument('-c', metavar='CONFIG_FILE',
+                        required=True, help='config file')
     return parser.parse_args()
 
 
@@ -29,7 +30,8 @@ def main():
     logger = logging.getLogger()
     handler = logging.FileHandler(config['run']['log_file'])
     handler.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logging_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    formatter = logging.Formatter(logging_format)
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
@@ -38,4 +40,3 @@ def main():
                       IFTTTNotifier(config['laputa']['ifttt_key'],
                                     config['laputa']['ifttt_event']))
     watcher.watch()
-
